@@ -34,9 +34,9 @@ exports.getBlogDetails = async (req, res) => {
 };
 
 exports.createBlog = async (req, res) => {
-  const { title, subtitle, content, thumbnail } = req.body;
+  const { title, description, content, thumbnail } = req.body;
 
-  console.log(title, subtitle, content, thumbnail);
+  console.log(title, description, content, thumbnail);
 
   if (!title || !content) {
     return res.status(400).json({
@@ -47,7 +47,7 @@ exports.createBlog = async (req, res) => {
 
   const newBlog = await Blog.create({
     title,
-    subtitle,
+    description,
     thumbnail,
     content,
   });
