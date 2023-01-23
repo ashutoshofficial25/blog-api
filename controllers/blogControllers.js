@@ -4,8 +4,8 @@ exports.getAllBlogs = async (req, res) => {
   const blogs = await Blog.find();
 
   if (!blogs.length) {
-    return res.status(404).json({
-      data: "null",
+    return res.status(200).json({
+      data: [],
       message: "No blog posts found",
     });
   }
