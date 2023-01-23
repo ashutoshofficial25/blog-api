@@ -4,6 +4,7 @@ const { connectDb } = require("./config/dbConfig");
 const bodyParser = require("body-parser");
 const router = require("./routes");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 
 app.use(morgan("dev"));
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1", router);
+app.use(express.static("./uploads/blogImages"));
 
 let PORT = 3008;
 
