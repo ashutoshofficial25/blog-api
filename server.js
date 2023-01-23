@@ -23,6 +23,11 @@ app.get("/", (req, res) => {
 app.use("/api/v1", router);
 app.use(express.static("./uploads/blogImages"));
 
+app.get("/uploads/blogImages/pho.jpeg", (req, res) => {
+   const imagePath = path.join(__dirname, "/uploads/blogImages/pho.jpeg");
+   res.sendFile(imagePath);
+});
+
 let PORT = 3008;
 
 app.listen(PORT, async () => {
