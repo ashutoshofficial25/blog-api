@@ -8,22 +8,23 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(
-  cors({
-    origin: "*",
-  })
+   cors({
+      origin: "*",
+   })
 );
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 //base route
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Welcome to the API" });
+   res.status(200).json({ message: "Welcome to the API" });
 });
 
 app.use("/api/v1", router);
 
-let PORT = 3005;
+let PORT = 3008;
 
 app.listen(PORT, async () => {
-  console.log("server started");
-  await connectDb();
-  console.log("database connected");
+   console.log("server started");
+   await connectDb();
+   console.log("database connected");
 });

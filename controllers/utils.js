@@ -1,27 +1,27 @@
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "../public/blogImages");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
+   destination: (req, file, cb) => {
+      cb(null, "../public/blogImages");
+   },
+   filename: (req, file, cb) => {
+      cb(null, file.originalname);
+   },
 });
 
-const uploader = multer({ storage: storage });
+exports.uploader = multer({ storage: storage });
 
 exports.uploadImage = async (req, res) => {
-  console.log("Uploading image", req.file);
-
-  try {
-    const file = req.files.file;
-    if (!file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
-    await uploader.single("file");
-    res.status(200).json({ message: "file successfully uploaded" });
-  } catch (error) {
-    return res.status(400).json({ message: "No file uploaded" });
-  }
+   try {
+      if (!req.file) {
+         return res
+            .status(400)
+            .json({ data: null, message: "No file was uploaded." });
+      }
+      res.status(200).json({ data: "", message: "file uploaded successfully" });
+   } catch (error) {
+      return res
+         .status(400)
+         .json({ data: error, message: "No file was uploaded." });
+   }
 };
