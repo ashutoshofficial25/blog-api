@@ -5,6 +5,7 @@ const {
   createBlog,
   getBlogDetails,
 } = require("../controllers/blogControllers");
+const { authenticate } = require("../middlewares/authGuard");
 
 blogRouter.get("/", getAllBlogs);
 blogRouter.get("/:id", getBlogDetails);

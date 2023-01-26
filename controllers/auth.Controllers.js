@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { constants } = require("../constants");
 
 exports.signup = async (req, res) => {
   const { fullname, email, password } = req.body;
@@ -65,18 +66,17 @@ exports.login = async (req, res) => {
       });
     }
 
-    const secert = "secret";
-
-    const token = jwt.sign(isUser._id, secert, {
+    const user = {
+      _id: isUser._id,
+      fullname: isUser.fullname,
+      email: isUser.email,
+    };
+    const token = jwt.sign(user, constants.JWTSECRET, {
       expiresIn: "24h",
     });
-
     return res.status(200).json({
-      data: {
-        fullname: isUser.fullname,
-        email: isUser.email,
-        token: token,
-      },
+      user: user,
+      token: token,
       success: true,
       message: "Loggdin successfully",
     });
