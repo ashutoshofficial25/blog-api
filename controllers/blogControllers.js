@@ -23,6 +23,29 @@ exports.getAllBlogs = async (req, res) => {
   }
 };
 
+exports.getBlogByUserId = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    if (!userId) {
+      return res.status(400).json({
+        error: true,
+        message: "User id not provided",
+      });
+    }
+    const blogs = await Blog.find({ userId: userId });
+
+    res.status(200).json({
+      data: blogs,
+      message: "Your All blog posts",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      error: true,
+      message: "Something went wrong",
+    });
+  }
+};
+
 exports.getBlogDetails = async (req, res) => {
   const { id } = req.params;
 
@@ -49,8 +72,8 @@ exports.getBlogDetails = async (req, res) => {
 };
 
 exports.createBlog = async (req, res) => {
-  const { title, description, content, thumbnail } = req.body;
-
+  const { title, description, content, thumbnail, userId } = req.body;
+  // const  user  = req.user \\ implementation after auth
   console.log(title, description, content, thumbnail);
 
   if (!title || !content) {
@@ -65,10 +88,41 @@ exports.createBlog = async (req, res) => {
     description,
     thumbnail,
     content,
+    userId,
   });
 
   res.status(200).json({
     data: newBlog,
     message: "Blog created successfully",
   });
+};
+
+exports.deleteBlog = async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!id) {
+      return res.status(400).json({
+        error: error,
+        message: "Provide id of the blog",
+      });
+    }
+    const blog = await Blog.findOneAndDelete({ _id: id });
+
+    if (!blog) {
+      return res.status(400).json({
+        error: error,
+        message: "No blog found with given id",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Blog deleted successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      error: true,
+      message: "Unable to delete blog",
+    });
+  }
 };
