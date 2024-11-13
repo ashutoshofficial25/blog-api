@@ -31,7 +31,7 @@ app.get("/uploads/blogImages/:image", (req, res) => {
   res.sendFile(imagePath);
 });
 
-let PORT = 3008;
+let PORT = 5000;
 
 app.listen(PORT, async () => {
   console.log("server started");
